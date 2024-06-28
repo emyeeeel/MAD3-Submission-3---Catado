@@ -56,7 +56,7 @@ class _StatefulParentAndChildState extends State<StatefulParentAndChild> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Parent Value: $newV'),
-            StatefulChild(),
+            const StatefulChild(),
             ElevatedButton(
               onPressed: delayedIncrement,
               //_incrementParent,
