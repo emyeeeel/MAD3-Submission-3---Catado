@@ -47,28 +47,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAEEQ5hYuEBM_JvtTc6TwTbPslrsphhv_w',
-    appId: '1:949802881102:web:b029ff1a45380d23f7331f',
-    messagingSenderId: '949802881102',
-    projectId: 'seldura-firebase-demo',
-    authDomain: 'seldura-firebase-demo.firebaseapp.com',
-    storageBucket: 'seldura-firebase-demo.appspot.com',
+    apiKey: 'AIzaSyBhcYUlIRH2I8hZPp1fKuN5aScrTQA08FA',
+    appId: '1:913574064965:web:f65c68e5b3a5e33516042c',
+    messagingSenderId: '913574064965',
+    projectId: 'fir-auth-7b0d4',
+    authDomain: 'fir-auth-7b0d4.firebaseapp.com',
+    storageBucket: 'fir-auth-7b0d4.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC8eCLjgh_jq8B9UbjZwWhTG7jkyWNgE1s',
-    appId: '1:949802881102:android:8317d39a10e58c4ef7331f',
-    messagingSenderId: '949802881102',
-    projectId: 'seldura-firebase-demo',
-    storageBucket: 'seldura-firebase-demo.appspot.com',
+    apiKey: 'AIzaSyBPMDkSKNypfj_BHaJBuLSObQ2R-cax_Uo',
+    appId: '1:913574064965:android:916d4697f5ef281f16042c',
+    messagingSenderId: '913574064965',
+    projectId: 'fir-auth-7b0d4',
+    storageBucket: 'fir-auth-7b0d4.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDQuwtQnrmpBIW-FvtzubhNIX1rDJkbOng',
-    appId: '1:949802881102:ios:3554745e8cdc66cbf7331f',
-    messagingSenderId: '949802881102',
-    projectId: 'seldura-firebase-demo',
-    storageBucket: 'seldura-firebase-demo.appspot.com',
+    apiKey: 'AIzaSyCEZma8G-vhFyRdMASi2xB00fheWKYZYJc',
+    appId: '1:913574064965:ios:a1685d35994ff10516042c',
+    messagingSenderId: '913574064965',
+    projectId: 'fir-auth-7b0d4',
+    storageBucket: 'fir-auth-7b0d4.appspot.com',
+    iosClientId: '913574064965-k7behetri73ahndp59np5d2sv1tmstts.apps.googleusercontent.com',
     iosBundleId: 'com.example.stateChangeDemo',
   );
+
 }

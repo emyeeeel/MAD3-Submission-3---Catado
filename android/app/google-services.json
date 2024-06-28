@@ -1,26 +1,36 @@
 {
   "project_info": {
-    "project_number": "949802881102",
-    "project_id": "seldura-firebase-demo",
-    "storage_bucket": "seldura-firebase-demo.appspot.com"
+    "project_number": "913574064965",
+    "project_id": "fir-auth-7b0d4",
+    "storage_bucket": "fir-auth-7b0d4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:949802881102:android:8317d39a10e58c4ef7331f",
+        "mobilesdk_app_id": "1:913574064965:android:916d4697f5ef281f16042c",
         "android_client_info": {
-          "package_name": "com.example.state_change_demo"
+          "package_name": "com.firebaseAuth.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "913574064965-t2f3q6ot3oosnl4thjkc4ul78rsa9cpg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyC8eCLjgh_jq8B9UbjZwWhTG7jkyWNgE1s"
+          "current_key": "AIzaSyBPMDkSKNypfj_BHaJBuLSObQ2R-cax_Uo"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913574064965-t2f3q6ot3oosnl4thjkc4ul78rsa9cpg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
