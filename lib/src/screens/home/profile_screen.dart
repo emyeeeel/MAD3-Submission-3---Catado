@@ -24,7 +24,6 @@ class ProfileScreen extends StatelessWidget {
             ),
            ),
            const SizedBox(height: 20,),
-
             GestureDetector(
               onTap: () async {
                 showCupertinoDialog(

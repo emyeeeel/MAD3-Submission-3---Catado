@@ -38,8 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
     password.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -64,6 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 1.0, 
                       ),
                     ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   ),
                 ),
                 const SizedBox(height: 20,),
@@ -82,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 1.0, 
                       ),
                     ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     obscureText: isClicked ? false : true,
                     suffix: GestureDetector(
                       onTap: () {
@@ -106,18 +106,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: MediaQuery.of(context).size.width * .80,
                     child: CupertinoButton.filled(
                       onPressed: () async {
-                        validateInputs(email.text, password.text);
-                        try{
-                          showCupertinoDialog(
-                            context: context, 
-                            builder: (context) {
-                              return const Center(child: CupertinoActivityIndicator());
-                            }
-                          );
-                          await AuthController.I.login(email.text.trim(), password.text.trim());
-                        } on FirebaseAuthException catch (e){
-                          Navigator.pop(context);
-                          showErrorMessage(e.message!);
+                        if(validateInputs(email.text, password.text)){
+                          try{
+                            showCupertinoDialog(
+                              context: context, 
+                              builder: (context) {
+                                return const Center(child: CupertinoActivityIndicator());
+                              }
+                            );
+                            await AuthController.I.login(email.text.trim(), password.text.trim());
+                          } on FirebaseAuthException catch (e){
+                            Navigator.pop(context);
+                            showErrorMessage(e.message!);
+                          }
                         }
                       },
                       child: const Text("Sign in"),
@@ -131,7 +132,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const Spacer(),
                     GestureDetector(
-                      onTap: () async { 
+                      onTap: () async {
+                        try{
+                            showCupertinoDialog(
+                              context: context, 
+                              builder: (context) {
+                                return const Center(child: CupertinoActivityIndicator());
+                              }
+                            );
+                            await AuthController.I.signInWithGoogle();
+                          } on FirebaseAuthException catch (e){
+                            Navigator.pop(context);
+                            showErrorMessage(e.message!);
+                          }
                       },
                       child: Container(
                         width: 100,
@@ -211,20 +224,23 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  validateInputs(String email, String password) {
-    if(email.isEmpty && password.isNotEmpty){
-      showErrorMessage("Please input an email.");
-    }else if(password.isEmpty && email.isNotEmpty){
-      showErrorMessage("Please input a password.");
-    }else if(email.isEmpty && password.isEmpty){
-      showErrorMessage("Please input an email and a password.");
-    }else{
-      final bool emailValid = 
+  bool validateInputs(String email, String password) {
+    final bool emailValid = 
       RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
-      if(!emailValid){
-        showErrorMessage("Please input a valid email.");
-      }
+    if(email.isEmpty && password.isNotEmpty){
+      showErrorMessage("Please input an email.");
+      return false;
+    }else if(password.isEmpty && email.isNotEmpty){
+      showErrorMessage("Please input a password.");
+      return false;
+    }else if(email.isEmpty && password.isEmpty){
+      showErrorMessage("Please input an email and a password.");
+      return false;
+    }else if(!emailValid){
+      showErrorMessage("Please input a valid email.");
+      return false;
     }
+    return true;
   }
 }

@@ -82,7 +82,7 @@ class AuthController with ChangeNotifier {
     FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  ///write code to log out the user and add it to the home page.
+  
   logout() {
     if (_googleSignIn.currentUser != null) {
       _googleSignIn.signOut();
@@ -99,17 +99,4 @@ class AuthController with ChangeNotifier {
   }
 
   ///https://pub.dev/packages/flutter_secure_storage or any caching dependency of your choice like localstorage, hive, or a db
-}
-
-class SimulatedAPI {
-  Map<String, String> users = {"testUser": "12345678ABCabc!"};
-
-  Future<bool> login(String userName, String password) async {
-    await Future.delayed(const Duration(seconds: 4));
-    if (users[userName] == null) throw Exception("User does not exist");
-    if (users[userName] != password) {
-      throw Exception("Password does not match!");
-    }
-    return users[userName] == password;
-  }
 }

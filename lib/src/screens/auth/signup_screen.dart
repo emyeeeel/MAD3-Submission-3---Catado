@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../controllers/auth_controller.dart';
 import '../../routing/router.dart';
 import 'login_screen.dart';
 
@@ -72,6 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     width: 1.0, 
                   ),
                 ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
               ),
             ),
             const SizedBox(height: 20,),
@@ -90,6 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     width: 1.0, 
                   ),
                 ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 obscureText: isClicked ? false : true,
                 suffix: GestureDetector(
                   onTap: () {
@@ -113,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               width: MediaQuery.of(context).size.width * .80,
               height: 50,
               child: CupertinoTextField(
-                controller: password,
+                controller: confirmPassword,
                 placeholder: "Confirm password",
                 placeholderStyle: const TextStyle(color: CupertinoColors.inactiveGray),
                 decoration: BoxDecoration(
@@ -124,6 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     width: 1.0, 
                   ),
                 ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 obscureText: isClicked ? false : true,
                 suffix: GestureDetector(
                   onTap: () {
@@ -147,7 +152,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * .80,
                 child: CupertinoButton.filled(
-                  onPressed: (){},
+                  onPressed: () async {
+                    if(noEmptyInputs(email.text, password.text, confirmPassword.text)){
+                      if(validateInputs(email.text, password.text, confirmPassword.text)){
+                          try{
+                            showCupertinoDialog(
+                              context: context, 
+                              builder: (context) {
+                                return const Center(child: CupertinoActivityIndicator());
+                              }
+                            );
+                            await AuthController.I.register(email.text.trim(), password.text.trim());
+                          } on FirebaseAuthException catch (e){
+                            Navigator.pop(context);
+                            showErrorMessage(e.message!);
+                          }
+                        }
+                    }
+                  },
                   child: const Text("Sign up"),
                 ),
               ),
@@ -197,5 +219,59 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ],
       ),)
     );
+  }
+
+  showErrorMessage(String error){
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text('Sign up Failed'),
+          content: Text(error),
+          actions: <Widget>[
+           CupertinoDialogAction(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  bool noEmptyInputs(String email, String password, String confirmPassword){
+    if(email.isEmpty && (password.isNotEmpty && confirmPassword.isNotEmpty)){
+      showErrorMessage("Please input an email.");
+      return false;
+    }else if(password.isEmpty && (email.isNotEmpty && confirmPassword.isNotEmpty)){
+      showErrorMessage("Please input a password.");
+      return false;
+    }else if(confirmPassword.isEmpty && (email.isNotEmpty && password.isNotEmpty)){
+      showErrorMessage("Please input confirm password.");
+      return false;
+    }else if(email.isEmpty && password.isEmpty && confirmPassword.isEmpty){
+      showErrorMessage("Please input all fields.");
+      return false;
+    }
+    return true;
+  }
+
+  bool validateInputs(String email, String password, String confirmPassword) {
+    final bool emailValid = 
+      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
+
+    if(!emailValid){
+        showErrorMessage("Please input a valid email.");
+        return false;
+      }else{
+        if(password != confirmPassword){
+          showErrorMessage("Password do not match!");
+          return false;
+        }
+    }
+    return true;
   }
 }
