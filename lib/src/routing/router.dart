@@ -5,8 +5,8 @@ import "package:get_it/get_it.dart";
 import "package:go_router/go_router.dart";
 import "package:state_change_demo/src/controllers/auth_controller.dart";
 import "package:state_change_demo/src/enum/enum.dart";
-import "package:state_change_demo/src/screens/auth/login.screen.dart";
-import "package:state_change_demo/src/screens/auth/registration.screen.dart";
+import "package:state_change_demo/src/screens/auth/login_screen.dart";
+import "package:state_change_demo/src/screens/auth/signup_screen.dart";
 import "package:state_change_demo/src/screens/home/home.screen.dart";
 import "package:state_change_demo/src/screens/home/wrapper.dart";
 import "package:state_change_demo/src/screens/index.screen.dart";
@@ -40,7 +40,7 @@ class GlobalRouter {
       if (state.matchedLocation == LoginScreen.route) {
         return HomeScreen.route;
       }
-      if (state.matchedLocation == RegistrationScreen.route) {
+      if (state.matchedLocation == SignUpScreen.route) {
         return HomeScreen.route;
       }
       return null;
@@ -49,7 +49,7 @@ class GlobalRouter {
       if (state.matchedLocation == LoginScreen.route) {
         return null;
       }
-      if (state.matchedLocation == RegistrationScreen.route) {
+      if (state.matchedLocation == SignUpScreen.route) {
         return null;
       }
       return LoginScreen.route;
@@ -75,10 +75,10 @@ class GlobalRouter {
               }),
           GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
-              path: RegistrationScreen.route,
-              name: RegistrationScreen.name,
+              path: SignUpScreen.route,
+              name: SignUpScreen.name,
               builder: (context, _) {
-                return const RegistrationScreen();
+                return const SignUpScreen();
               }),
           ShellRoute(
               navigatorKey: _shellNavigatorKey,
