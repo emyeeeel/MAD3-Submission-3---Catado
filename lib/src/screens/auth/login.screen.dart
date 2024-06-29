@@ -26,8 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     formKey = GlobalKey<FormState>();
-    username = TextEditingController(text: "daniel+firebase@usjr.edu.ph");
-    password = TextEditingController(text: "12345678ABCabc!");
+    username = TextEditingController();
+    password = TextEditingController();
     usernameFn = FocusNode();
     passwordFn = FocusNode();
   }
@@ -156,14 +156,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                ElevatedButton(
+                CupertinoButton.filled(
                   onPressed: () {
                     WaitingDialog.show(context,
                         future: AuthController.I.signInWithGoogle());
                   },
                   child: const Text("Continue with Google"),
                 ),
-                ElevatedButton(
+                const SizedBox(height: 10,),
+                CupertinoButton.filled(
                   onPressed: () {
                     AuthController.I.signInWithGithub(context);
                   },
