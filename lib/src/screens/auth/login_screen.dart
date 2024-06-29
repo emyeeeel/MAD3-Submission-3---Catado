@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:state_change_demo/src/controllers/auth_controller.dart';
 
 import '../../routing/router.dart';
 import 'signup_screen.dart';
@@ -25,8 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    email = TextEditingController();
-    password = TextEditingController();
+    email = TextEditingController(text: "test@gmail.com");
+    password = TextEditingController(text: "password");
   }
 
   @override
@@ -104,7 +106,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: MediaQuery.of(context).size.width * .80,
                     child: CupertinoButton.filled(
                       onPressed: () async {
-
+                        validateInputs(email.text, password.text);
+                        try{
+                          showCupertinoDialog(
+                            context: context, 
+                            builder: (context) {
+                              return const Center(child: CupertinoActivityIndicator());
+                            }
+                          );
+                          await AuthController.I.login(email.text.trim(), password.text.trim());
+                        } on FirebaseAuthException catch (e){
+                          Navigator.pop(context);
+                          showErrorMessage(e.message!);
+                        }
                       },
                       child: const Text("Sign in"),
                     ),
@@ -189,12 +203,28 @@ class _LoginScreenState extends State<LoginScreen> {
               child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
-                 Navigator.of(context).pop();
               },
             ),
           ],
         );
       },
     );
+  }
+
+  validateInputs(String email, String password) {
+    if(email.isEmpty && password.isNotEmpty){
+      showErrorMessage("Please input an email.");
+    }else if(password.isEmpty && email.isNotEmpty){
+      showErrorMessage("Please input a password.");
+    }else if(email.isEmpty && password.isEmpty){
+      showErrorMessage("Please input an email and a password.");
+    }else{
+      final bool emailValid = 
+      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
+      if(!emailValid){
+        showErrorMessage("Please input a valid email.");
+      }
+    }
   }
 }

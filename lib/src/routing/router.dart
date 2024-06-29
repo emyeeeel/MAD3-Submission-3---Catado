@@ -7,7 +7,8 @@ import "package:state_change_demo/src/controllers/auth_controller.dart";
 import "package:state_change_demo/src/enum/enum.dart";
 import "package:state_change_demo/src/screens/auth/login_screen.dart";
 import "package:state_change_demo/src/screens/auth/signup_screen.dart";
-import "package:state_change_demo/src/screens/home/home.screen.dart";
+import "package:state_change_demo/src/screens/home/home_screen.dart";
+import "package:state_change_demo/src/screens/home/profile_screen.dart";
 import "package:state_change_demo/src/screens/home/wrapper.dart";
 import "package:state_change_demo/src/screens/index.screen.dart";
 import "package:state_change_demo/src/screens/key_example.dart";
@@ -92,10 +93,10 @@ class GlobalRouter {
                     }),
                 GoRoute(
                     parentNavigatorKey: _shellNavigatorKey,
-                    path: "/index",
-                    name: "Wrapped Index",
+                    path: ProfileScreen.route,
+                    name: ProfileScreen.name,
                     builder: (context, _) {
-                      return const IndexScreen();
+                      return const ProfileScreen();
                     }),
               ],
               builder: (context, state, child) {
